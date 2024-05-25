@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { GoChecklist } from "react-icons/go";
-import { FaRegFileAlt } from "react-icons/fa";
-import { BsFileBarGraph } from "react-icons/bs";
+// import { GoChecklist } from "react-icons/go";
+// import { FaRegFileAlt } from "react-icons/fa";
+// import { BsFileBarGraph } from "react-icons/bs";
 
 const JourneySteps = () => {
   const [selectedSteps, setSelectedSteps] = useState([false, false, false]);

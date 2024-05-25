@@ -67,10 +67,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-mongoose.connect("mongodb://127.0.0.1:27017/stoq_club", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect("mongodb://127.0.0.1:27017/stoq_club");
 
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
@@ -113,25 +110,28 @@ app.post("/register", (req, res) => {
 
 // Existing code for login and register routes
 
-// app.post("/baskets", (req, res) => {
-//   const { userId, basketType, stocks } = req.body;
+app.post("/baskets", async (req, res) => {
+  const { userId, basketType, stocks } = req.body;
+  console.log(basketType, stocks[0]);
 
-//   // Ensure the user is authenticated and the userId is provided
-//   if (!userId) {
-//     return res.status(401).json({ message: "Unauthorized" });
-//   }
+  const stock = stocks[0];
+  //  const user = await UsersModel.findById()
+  // Ensure the user is authenticated and the userId is provided
+  if (!userId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
 
-//   const newBasket = new BasketModel({
-//     userId,
-//     basketType,
-//     stocks,
-//   });
+  const newBasket = new BasketModel({
+    userId,
+    basketType,
+    stocks: stock,
+  });
 
-//   newBasket
-//     .save()
-//     .then((basket) => res.json(basket)) // Respond with the created basket
-//     .catch((err) => res.status(400).json({ message: "Error", error: err }));
-// });
+  const basket = await newBasket.save()
+  
+  res.json({msg: "successful", data: basket})
+    
+});
 
 app.post("/login/:name/baskets", (req, res) => {
   const { userId, basketType, stocks } = req.body;

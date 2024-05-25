@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import { v4 as uuidV4 } from "uuid";
 const CreateBasket = () => {
   const [basketType, setBasketType] = useState("");
   const [stocks, setStocks] = useState([{ name: "", quantity: 0 }]);
@@ -35,23 +35,26 @@ const CreateBasket = () => {
         return;
       }
 
+      console.log(basketType, stocks);
+
       // Include the token in the request headers
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       };
-
+     let userId = uuidV4()
       await axios.post(
         "http://localhost:3001/baskets",
         {
           // Adjust the URL to match your server route
+          userId,
           basketType,
           stocks,
         },
         config
       );
-      navigate("/dashboard");
+      // navigate("/dashboard");
     } catch (error) {
       console.error("There was an error creating the basket!", error);
     }
